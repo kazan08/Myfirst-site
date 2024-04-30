@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block title %}Аутентификация{% endblock %}
+
+{% block content %}
+
+{% if form.errors %}
+  <p>Ваше имя пользователя или пароль неправильны. Попробуйте ещё раз.</p>
+{% endif %}
+
+{% if next %}
+  {% if user.is_authenticated %}
+    <p>Вы уже вошли в систему</p>
+  {% else %}
+    <p>Please login to see this page.</p>
+  {% endif %}
+{% endif %}
+
+<form method="POST" action="{% url 'login' %}" class="login">
+{% csrf_token %}
+<table>
+
+<tr>
+  <td>{{ form.username.label_tag }}</td>
+  <td>{{ form.username }}</td>
+</tr>
+
+<tr>
+  <td>{{ form.password.label_tag }}</td>
+  <td>{{ form.password }}</td>
+</tr>
+</table>
+
+<input type="submit" value="login" style="font-size: 16px;"/>
+<input type="hidden" name="next" value="{{ next }}" />
+
+{# Assumes you setup the password_reset view in your URLconf #}
+<p><a href="{% url 'articles:register' %}">Зарегестрироваться</a></p>
+<p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
+</form>
+{% endblock %}

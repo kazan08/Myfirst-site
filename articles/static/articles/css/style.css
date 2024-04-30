@@ -1,0 +1,132 @@
+html, body {
+    font-family: 'Arial';
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    width: 100%;
+    color: #444;
+}
+
+a {
+    color: #0059b2;
+    text-decoration: none;
+}
+
+.table-page {
+    width: 100%;
+    height: 100%;
+    vertical-align: top;
+}
+
+table-page tr {height: 100%;}
+
+.clear {clear: both;}
+
+.header {
+	background: #3F4137;
+	height: 60px;
+}
+
+.logo {
+	background: url(' ../images/logo.png') no-repeat 10px 5px;
+	width: 70px;
+	height: 60px;
+}
+ul.mainmenu {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+	height: 60px;
+	color: #fdc073;
+	font-size: 20px;
+	overflow: hidden;
+}
+ul.mainmenu li {
+	float: left;
+	margin: 18px 40px 0 30px;
+}
+ul.mainmenu li.logo {margin: 0;}
+ul.mainmenu li.last {float: right;}
+
+ul.mainmenu li a {
+	color: #fdc073;
+	text-decoration: none;
+}
+ul.mainmenu li a:hover {
+	color: #FDA83D;
+}
+
+a.read_post {
+    border: solid #C0C0C0;
+    border-radius: 5px;
+    background-color: #C0C0C0;
+    color: black;
+}
+
+input.com_author_name {
+    border: solid black;
+    border-width: 1px;
+    background-color: rgba(192, 192, 192, 0.3);
+}
+
+textarea.com_text {
+    border: solid black;
+    border-width: 1px;
+    background-color: rgba(192, 192, 192, 0.3);
+}
+
+button.com_button {
+    border: solid #C0C0C0;
+    border-radius: 5px;
+    background-color: #C0C0C0;
+    color: black;
+}
+
+input.a_title {
+    width: 800px;
+    border: solid black;
+    border-width: 1px;
+    background-color: rgba(192, 192, 192, 0.3);
+}
+
+textarea.a_text {
+    border: solid black;
+    border-width: 1px;
+    background-color: rgba(192, 192, 192, 0.3);
+}
+
+input.datetime {
+    width: 160px;
+    border: solid black;
+    border-width: 1px;
+    background-color: rgba(192, 192, 192, 0.3);
+}
+
+button.a_button {
+    width: 200px;
+    height: 30px;
+}
+
+.login{
+  padding: 50px;
+  background: white;
+  position: fixed; top: 50%; left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%)
+}
+
+button.link-button {
+  background: none;
+  border: none;
+  color: #fdc073;
+  cursor: pointer;
+  font-family: 'Arial';
+}
+
+button.link-button:hover {
+    color: #FDA83D;
+}
+button.link-button:focus {
+  text-decoration: none;
+}

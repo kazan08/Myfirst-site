@@ -1,0 +1,43 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Мой сайт{% endblock %}</title>
+    <link type="text/css" href="{% static 'articles/css/style.css' %}" rel="stylesheet" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static 'articles/images/sigma.ico' %}" type="image/x-icon"/>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+
+<table class="table-page" border=0 cellpadding="0" cellspacing="0">
+<tr><td valign=top>
+{% block mainmenu %}
+		<div class="header">
+			<ul id="mainmenu" class="mainmenu">
+			<li class="logo"><a href="{% url 'articles:index' %}"><div class="logo"></div></a></li>
+{% for m in menu %}
+		<li><a href="{% url m.url_name %}">{{m.title}}</a></li>
+{% endfor %}
+
+{% if user.is_authenticated %}
+			<form method="post" action="{% url 'logout' %}" class="link-button">
+				{% csrf_token %}
+				<li class="last"><button type="submit" style="font-size: 18px;" class="link-button">Выйти</button></li>
+			</form>
+			<li class="last">{{ user.get_username }}</li>
+{% else %}
+    	<li class="last"><a href="{% url 'login'%}">Войти</a></li>
+{% endif %}
+			</ul>
+			<div class="clear"></div>
+		</div>
+{% endblock mainmenu %}
+
+{% block content %}
+{% endblock %}
+
+
+</body>
+</html>

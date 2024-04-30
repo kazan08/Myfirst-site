@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %}Последние статьи{% endblock %}
+
+{% block content %}
+
+<h1>Последние статьи</h1>
+
+    {% if latest_articles_list %}
+
+        {% for a in latest_articles_list %}
+            <h2>{{ a.article_title }}<br></h2>
+            {% autoescape off %}
+            <h4>{{ a.article_text|linebreaks|truncatewords:20 }}<br></h4>
+            {% endautoescape %}
+            <h5>Автор: {{ a.author_name }}</h5>
+            <h5>{{ a.pub_date }}</h5>
+            <a href="{% url 'articles:detail' a.id %}" class="read_post">Читать статью</a>
+            {% if not forloop.last %}
+                <hr>
+            {% endif %}
+        {% endfor %}
+
+    {% else %}
+        Статей нет
+    {% endif %}
+
+{% endblock %}
