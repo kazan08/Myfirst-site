@@ -1,6 +1,7 @@
 # этот файл отвечает за то что отображается на сайте
 from django.http import Http404, HttpResponseRedirect, HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
+from django.utils import timezone
 
 from django.urls import reverse
 
@@ -8,7 +9,7 @@ from .models import Article
 
 from django.contrib.auth.decorators import login_required
 
-from .forms import UserRegistrationForm
+from .forms import UserRegistrationForm, AddPageForm
 
 menu = [
     {'title': 'Все статьи', 'url_name':'articles:all_a'},
@@ -52,14 +53,17 @@ def leave_comment(request, article_id):
 
 @login_required
 def add_page(request):
-    return render(request, 'articles/article.html', {'menu': menu})
-
-@login_required
-def leave_article(request):
-    Article.objects.create(author_name= request.user,article_title = request.POST['title'], article_text= request.POST['text'], pub_date = request.POST['datetime'])
-
-    return HttpResponseRedirect( reverse('articles:index') )
-
+    if request.method == "POST":
+        form = AddPageForm()
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author_name = request.user
+            article.pub_date = timezone.now()
+            article.save()
+            return HttpResponseRedirect('articles:detail', id = article.id)
+    else:
+        form = AddPageForm()
+    return render(request, "articles/article.html", {'form': form, 'menu': menu})
 
 def about(request):
     return render(request, "articles/about.html", {'menu':menu})
@@ -81,3 +85,19 @@ def register(request):
     else:
         user_form = UserRegistrationForm()
     return render(request, 'registration/register.html', {'user_form': user_form, 'menu': menu})
+
+def edit(request, article_id):
+    a = Article.objects.get( id = article_id )
+    article = get_object_or_404(Article, pk=a.id)
+    if request.method == "POST":
+        form = AddPageForm(request.POST, instance=article)
+        if form.is_valid():
+            article = form.save(commit=False)
+            article.author_name = request.user
+            article.published_date = timezone.now()
+            article.save()
+            return HttpResponseRedirect( reverse('articles:detail', args = (a.id,)) )
+    else:
+        form = AddPageForm(instance=article)
+    return render(request, 'articles/article.html', {'form': form})
+

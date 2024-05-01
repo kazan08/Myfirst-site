@@ -15,6 +15,7 @@
             {% endautoescape %}
             <h5>Автор: {{ a.author_name }}</h5>
             <h5>{{ a.pub_date }}</h5>
+            <a href="{% url 'articles:edit' a.id %}">Редактировать</a>
             <a href="{% url 'articles:detail' a.id %}" class="read_post">Читать статью</a>
             {% if not forloop.last %}
                 <hr>

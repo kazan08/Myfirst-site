@@ -8,8 +8,8 @@ from django.contrib.auth.models import User
 # Модель статьи
 class Article(models.Model):
     author_name = models.ForeignKey(User, on_delete= models.CASCADE)
-    article_title = models.CharField('Article name', max_length = 200) # Название статьи
-    article_text = models.TextField('Article text') # текст статьи
+    article_title = models.CharField('Название Статьи', max_length = 200) # Название статьи
+    article_text = models.TextField('Текст статьи') # текст статьи
     pub_date = models.DateTimeField('Publicate date') # дата публикации
 
     def __str__(self):
@@ -29,10 +29,10 @@ class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete = models.CASCADE)
     author_name = models.ForeignKey(User, on_delete = models.CASCADE) # автор комментария
     comment_text = models.CharField('Comment text', max_length = 200) # текст комментария
-
-    def __str__(self):
-        return self.author_name
     
+    def __str__(self):
+        return self.author_name.username
+
     #Перевод на русский
     class Meta:
         verbose_name = 'Комментарий'

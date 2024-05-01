@@ -6,13 +6,11 @@
 
 <h1>Добавление статьи</h1>
 
-<form action="{% url 'articles:leave_article' %}" method="POST">
+<form method="POST" class="post-form">
 
     {% csrf_token %}
 
-    <input type="text" required placeholder="Заголовок статьи" name="title" style="font-size: 16px;" class="a_title" maxlength="200"><br>
-    <textarea name="text" required placeholder="Текст статьи" cols="97" rows="15" style="font-size: 14px;" class="a_text"></textarea><br>
-    <input type="datetime" required placeholder="ГГГГ-ММ-ДД ЧЧ:ММ" name="datetime" class="datetime"><br>
+    {{ form.as_p }}
 
     <button type="submit" class="a_button">Создать статью</button>
 
