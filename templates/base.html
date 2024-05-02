@@ -17,9 +17,9 @@
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
 			<li class="logo"><a href="{% url 'articles:index' %}"><div class="logo"></div></a></li>
-{% for m in menu %}
-		<li><a href="{% url m.url_name %}">{{m.title}}</a></li>
-{% endfor %}
+			<li><a href="{% url 'articles:all_a' %}">Все статьи</a></li>
+			<li><a href="{% url 'articles:about' %}">О сайте</a></li>
+			<li><a href="{% url 'articles:add_page' %}">Создать статью</a></li>
 
 {% if user.is_authenticated %}
 			<form method="post" action="{% url 'logout' %}" class="link-button">

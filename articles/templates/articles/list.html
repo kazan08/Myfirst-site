@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% block title %}Последние статьи{% endblock %}
+{% block title %}{{ title }}{% endblock %}
 
 {% block content %}
 
-<h1>Последние статьи</h1>
+<h1>{{ title }}</h1>
 
     {% if latest_articles_list %}
 
@@ -15,7 +15,9 @@
             {% endautoescape %}
             <h5>Автор: {{ a.author_name }}</h5>
             <h5>{{ a.pub_date }}</h5>
-            <a href="{% url 'articles:edit' a.id %}">Редактировать</a>
+            {% if user.is_authenticated  %}
+            <a href="{% url 'articles:edit' a.id %}" class="read_post">Редактировать</a>
+            {% endif %}
             <a href="{% url 'articles:detail' a.id %}" class="read_post">Читать статью</a>
             {% if not forloop.last %}
                 <hr>

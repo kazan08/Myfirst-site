@@ -11,20 +11,13 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import UserRegistrationForm, AddPageForm
 
-menu = [
-    {'title': 'Все статьи', 'url_name':'articles:all_a'},
-    {'title': 'О сайте', 'url_name': 'articles:about'},
-    {'title': 'добавить статью', 'url_name': 'articles:add_page'},
-    {'title': 'Обратня свазь', 'url_name': 'articles:contact'},
-]
-
 def index(request):
     latest_article_list = Article.objects.order_by('-pub_date')[:5]
-    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, 'menu':menu},)
+    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, 'title': 'Последние статьи'} )
 
 def all_a(request):
     latest_article_list = Article.objects.order_by('-pub_date')
-    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, 'menu':menu},)
+    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, "title": "Все статьи" }, )
 
 #функция detail отвечает за текст статьи, название, и комментарии
 def detail(request, article_id):
@@ -35,7 +28,7 @@ def detail(request, article_id):
     
     latest_comments_list = a.comment_set.order_by("-id")# отображение комментариев
 
-    return render(request, 'articles/detail.html', {'article': a, 'latest_comments_list': latest_comments_list, 'menu': menu},)
+    return render(request, 'articles/detail.html', {'article': a, 'latest_comments_list': latest_comments_list, },)
 
 # создание комментариев
 @login_required
@@ -54,22 +47,19 @@ def leave_comment(request, article_id):
 @login_required
 def add_page(request):
     if request.method == "POST":
-        form = AddPageForm()
+        form = AddPageForm(request.POST)
         if form.is_valid():
             article = form.save(commit=False)
             article.author_name = request.user
             article.pub_date = timezone.now()
             article.save()
-            return HttpResponseRedirect('articles:detail', id = article.id)
+            return HttpResponseRedirect( reverse('articles:detail', args= (article.id,)) )
     else:
         form = AddPageForm()
-    return render(request, "articles/article.html", {'form': form, 'menu': menu})
+    return render(request, "articles/article.html", {'form': form, })
 
 def about(request):
-    return render(request, "articles/about.html", {'menu':menu})
-
-def contact(request):
-    return HttpResponse("Вы не сможете связатся")
+    return render(request, "articles/about.html", )
 
 def register(request):
     if request.method == 'POST':
@@ -84,7 +74,7 @@ def register(request):
             return render(request, 'registration/register_done.html', {'new_user': new_user})
     else:
         user_form = UserRegistrationForm()
-    return render(request, 'registration/register.html', {'user_form': user_form, 'menu': menu})
+    return render(request, 'registration/register.html', {'user_form': user_form,})
 
 def edit(request, article_id):
     a = Article.objects.get( id = article_id )
