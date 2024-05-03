@@ -41,9 +41,10 @@ ul.mainmenu {
 	font-size: 20px;
 	overflow: hidden;
 }
+
 ul.mainmenu li {
 	float: left;
-	margin: 18px 40px 0 30px;
+	margin: 18px 8px 0 40px;
 }
 ul.mainmenu li.logo {margin: 0;}
 ul.mainmenu li.last {float: right;}
@@ -145,4 +146,33 @@ button.link-button:focus {
 }
 .footer a:hover {
     color: #708090;
+}
+
+@media screen and (max-width: 576px) {
+    
+    .header {
+	    background: #3F4137;
+        height: 80px;
+    }
+
+    .logo {
+	    background: url(' ../images/logo.png') no-repeat 10px 5px;
+    	width: 70px;
+    	height: 60px;
+    }
+    
+    ul.mainmenu {
+        list-style: none;
+    	margin: 0;
+    	padding: 0;
+	    height: 60px;
+    	color: #fdc073;
+	    font-size: 18px;
+	    overflow: hidden;
+    }
+    ul.mainmenu li {
+	    float: left;
+	    margin: 8px 8px 0 12px;
+    }
+    ul.mainmenu li.last {float: right;}
 }

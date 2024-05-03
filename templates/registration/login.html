@@ -31,11 +31,10 @@
 </tr>
 </table>
 
-<input type="submit" value="login" style="font-size: 16px;"/>
+<input type="submit" value="Войти" style="font-size: 16px;"/>
 <input type="hidden" name="next" value="{{ next }}" />
 
 {# Assumes you setup the password_reset view in your URLconf #}
 <p><a href="{% url 'articles:register' %}">Зарегестрироваться</a></p>
-<p><a href="{% url 'password_reset' %}">Забыли пароль?</a></p>
 </form>
 {% endblock %}
