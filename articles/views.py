@@ -13,11 +13,13 @@ from .forms import UserRegistrationForm, AddPageForm
 
 def index(request):
     latest_article_list = Article.objects.order_by('-pub_date')[:5]
-    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, 'title': 'Последние статьи'} )
+    username = request.user.username
+    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, 'title': 'Последние статьи', 'usernamne': username} )
 
 def all_a(request):
     latest_article_list = Article.objects.order_by('-pub_date')
-    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, "title": "Все статьи" }, )
+    username = request.user.username
+    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, "title": "Все статьи" , 'username': username}, )
 
 #функция detail отвечает за текст статьи, название, и комментарии
 def detail(request, article_id):
@@ -66,7 +68,7 @@ def register(request):
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
             # Create a new user object but avoid saving it yet
-            new_user = user_form.save(commit=False)
+            new_user = user_form.save(commit= False)
             # Set the chosen password
             new_user.set_password(user_form.cleaned_data['password'])
             # Save the User object
@@ -90,4 +92,9 @@ def edit(request, article_id):
     else:
         form = AddPageForm(instance=article)
     return render(request, 'articles/article.html', {'form': form})
+
+@login_required
+def my_articles(request):
+    my_articles = Article.objects.filter( author_name = request.user ).order_by("-pub_date")    
+    return render(request, 'articles/my_articles.html', {'my_articles': my_articles})
 

@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block title %}Мои статьи{% endblock %}
+
+{% block content %}
+
+{% if my_articles %}
+
+    {% for a in my_articles %}
+
+        {% autoescape off %}
+        <h2>{{ a.article_title }}</h2>
+        <h4>{{ a.article_text|linebreaks|truncatewords:20 }}</h4>
+        {% endautoescape %}
+        <h5>{{ a.pub_date }}</h5>
+        <a href="{% url 'articles:edit' a.id %}" class="read_post">Редактировать</a>
+        <a href="{% url 'articles:detail' a.id %}" class="read_post">Читать статью</a>
+        {% if not forloop.last %}
+        <hr>
+        {% endif %}
+
+
+    {% endfor %}
+
+{% else %}
+    <h1>У вас нет статей</h1>
+{% endif %}
+
+{% endblock %}
