@@ -152,7 +152,7 @@ button.link-button:focus {
     
     .header {
 	    background: #3F4137;
-        height: 80px;
+        height: 70px;
     }
 
     .logo {
@@ -167,7 +167,7 @@ button.link-button:focus {
     	padding: 0;
 	    height: 60px;
     	color: #fdc073;
-	    font-size: 18px;
+	    font-size: 16px;
 	    overflow: hidden;
     }
     ul.mainmenu li {
