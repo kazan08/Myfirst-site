@@ -9,7 +9,8 @@
 <h4>{{article.article_text|linebreaks}}</h4>
 
 <em>Автор: {{article.author_name}}<br></em>
-<em>{{article.pub_date}}</em>
+<em>Создано: {{article.pub_date}}<br></em>
+<em>Обновлено: {{article.update}}<br></em>
 
 {% if article.was_published_recently %}
 Новая статья!

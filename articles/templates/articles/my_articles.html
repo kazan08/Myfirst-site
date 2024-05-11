@@ -15,6 +15,10 @@
         <h5>{{ a.pub_date }}</h5>
         <a href="{% url 'articles:edit' a.id %}" class="read_post">Редактировать</a>
         <a href="{% url 'articles:detail' a.id %}" class="read_post">Читать статью</a>
+        <form action="{% url 'articles:delete' a.id %}" method="POST">
+            {% csrf_token %}
+            <button type="submit">Удалить</button>
+        </form>
         {% if not forloop.last %}
         <hr>
         {% endif %}

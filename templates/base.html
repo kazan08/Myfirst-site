@@ -17,12 +17,12 @@
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
 			<li class="logo"><a href="{% url 'articles:index' %}"><div class="logo"></div></a></li>
-			<li><a href="{% url 'articles:all_a' %}">Все статьи</a></li>
 			<li><a href="{% url 'articles:about' %}">О сайте</a></li>
-			<li><a href="{% url 'articles:add_page' %}">Создать статью</a></li>
-			<li><a href="{% url 'articles:my_articles' %}">Мои статьи</a></li>
 
 {% if user.is_authenticated %}
+				<li><a href="{% url 'articles:add_page' %}">Создать статью</a></li>
+				<li><a href="{% url 'articles:my_articles' %}">Мои статьи</a></li>
+
 			<form method="post" action="{% url 'logout' %}" class="link-button">
 				{% csrf_token %}
 				<li class="last"><button type="submit" style="font-size: 18px;" class="link-button">Выйти</button></li>

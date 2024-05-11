@@ -57,7 +57,7 @@ ul.mainmenu li a:hover {
 	color: #FDA83D;
 }
 
-a.read_post {
+.read_post {
     border: solid #C0C0C0;
     border-radius: 5px;
     background-color: #C0C0C0;
@@ -123,12 +123,13 @@ button.link-button:focus {
     width: 500px;
     height: 200px;
     font-size: 16px;
-    
+      
 }
 
 .post-form input {
     width: 500px;
     font-size: 16px;
+    
 }
 
 .footer {
@@ -146,6 +147,11 @@ button.link-button:focus {
 }
 .footer a:hover {
     color: #708090;
+}
+
+.pagination {
+    padding: 10px;
+    font-weight: 700;
 }
 
 @media screen and (max-width: 576px) {
@@ -175,4 +181,16 @@ button.link-button:focus {
 	    margin: 8px 8px 0 12px;
     }
     ul.mainmenu li.last {float: right;}
+
+    .post-form textarea {
+        width: 100%;
+        height: 200px;
+        font-size: 14px;
+    }
+
+    .post-form input {
+        width: 100%;
+        font-size: 14px;
+    }
+
 }

@@ -11,15 +11,21 @@ from django.contrib.auth.decorators import login_required
 
 from .forms import UserRegistrationForm, AddPageForm
 
-def index(request):
-    latest_article_list = Article.objects.order_by('-pub_date')[:5]
-    username = request.user.username
-    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, 'title': 'Последние статьи', 'usernamne': username} )
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-def all_a(request):
-    latest_article_list = Article.objects.order_by('-pub_date')
-    username = request.user.username
-    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list, "title": "Все статьи" , 'username': username}, )
+def index(request):
+    article_list = Article.published.all()
+    paginator = Paginator(article_list, 5)
+    page_number = request.GET.get('page', 1)
+
+    try:
+        latest_article_list = paginator.page(page_number)
+    except PageNotAnInteger:
+        latest_article_list = paginator.page(1)
+    except EmptyPage:
+        latest_article_list = paginator.page(paginator.num_pages)
+
+    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list} )
 
 #функция detail отвечает за текст статьи, название, и комментарии
 def detail(request, article_id):
@@ -86,9 +92,9 @@ def edit(request, article_id):
         if form.is_valid():
             article = form.save(commit=False)
             article.author_name = request.user
-            article.published_date = timezone.now()
+            article.update = timezone.now()
             article.save()
-            return HttpResponseRedirect( reverse('articles:detail', args = (a.id,)) )
+            return HttpResponseRedirect( Article.get_absolute_url(self=a) )
     else:
         form = AddPageForm(instance=article)
     return render(request, 'articles/article.html', {'form': form})
@@ -97,4 +103,10 @@ def edit(request, article_id):
 def my_articles(request):
     my_articles = Article.objects.filter( author_name = request.user ).order_by("-pub_date")    
     return render(request, 'articles/my_articles.html', {'my_articles': my_articles})
+@login_required()
+def delete(request, article_id):
+
+    if request.method == "POST":
+        Article.objects.get(id=article_id).delete()
+        return HttpResponseRedirect( reverse('articles:my_articles') )
 

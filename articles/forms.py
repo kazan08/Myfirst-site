@@ -21,4 +21,4 @@ class AddPageForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ('article_title', 'article_text')
+        fields = ('article_title', 'article_text', 'status')
