@@ -47,9 +47,10 @@ class Article(models.Model):
 
 # Модель комментария
 class Comment(models.Model):
-    article = models.ForeignKey(Article, on_delete = models.CASCADE)
+    article = models.ForeignKey(Article, on_delete = models.CASCADE) # статьия к которой сделан коммент
     author_name = models.ForeignKey(User, on_delete = models.CASCADE) # автор комментария
-    comment_text = models.CharField('Comment text', max_length = 200) # текст комментария
+    comment_text = models.CharField('Текст комментария', max_length = 200) # текст комментария
+    created = models.DateTimeField("Создано", default=timezone.now()) # дата создания комментария
     
     def __str__(self): # функция чтобы показывало автора комментария в админ панели
         return self.author_name.username
@@ -58,3 +59,7 @@ class Comment(models.Model):
     class Meta:
         verbose_name = 'Комментарий'
         verbose_name_plural = 'Комментарии'
+        ordering = ['created']
+        indexes = [
+            models.Index(fields=['created']),
+        ]

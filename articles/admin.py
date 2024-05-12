@@ -12,4 +12,9 @@ class ArticleAdmin(admin.ModelAdmin):
     date_hierarchy = 'pub_date'
     ordering = ['status', 'pub_date']
 
-admin.site.register(Comment)
+@admin.register(Comment)
+class CommentAdmin(admin.ModelAdmin):
+    list_display = ['author_name',  'article', 'created',]
+    list_filter = ['author_name', 'created']
+    search_fields = ['author_name', 'comment_text']
+    raw_id_fields = ['author_name', 'article']

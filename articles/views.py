@@ -2,30 +2,21 @@
 from django.http import Http404, HttpResponseRedirect, HttpResponse
 from django.shortcuts import render, get_object_or_404
 from django.utils import timezone
-
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.generic import ListView
 
 from .models import Article
 
-from django.contrib.auth.decorators import login_required
-
 from .forms import UserRegistrationForm, AddPageForm
 
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-
-def index(request):
-    article_list = Article.published.all()
-    paginator = Paginator(article_list, 5)
-    page_number = request.GET.get('page', 1)
-
-    try:
-        latest_article_list = paginator.page(page_number)
-    except PageNotAnInteger:
-        latest_article_list = paginator.page(1)
-    except EmptyPage:
-        latest_article_list = paginator.page(paginator.num_pages)
-
-    return render(request, "articles/list.html", {'latest_articles_list': latest_article_list} )
+#Этот класс отвечает за показ статей
+class ArticlesListView(ListView):
+    queryset = Article.published.all()
+    context_object_name = 'latest_articles_list'
+    paginate_by = 5
+    template_name = "articles/list.html"
 
 #функция detail отвечает за текст статьи, название, и комментарии
 def detail(request, article_id):
@@ -34,7 +25,7 @@ def detail(request, article_id):
     except:
         raise Http404("Статья не найдена!")# ошибка 404
     
-    latest_comments_list = a.comment_set.order_by("-id")# отображение комментариев
+    latest_comments_list = a.comment_set.all() # отображение комментариев
 
     return render(request, 'articles/detail.html', {'article': a, 'latest_comments_list': latest_comments_list, },)
 
@@ -50,7 +41,7 @@ def leave_comment(request, article_id):
     a.comment_set.create(author_name = request.user, comment_text= request.POST['text'])
 
     # обновление страницы
-    return HttpResponseRedirect( reverse('articles:detail', args = (a.id,)) )
+    return HttpResponseRedirect( Article.get_absolute_url(self=a) )
 
 @login_required
 def add_page(request):
@@ -61,7 +52,7 @@ def add_page(request):
             article.author_name = request.user
             article.pub_date = timezone.now()
             article.save()
-            return HttpResponseRedirect( reverse('articles:detail', args= (article.id,)) )
+            return HttpResponseRedirect( Article.get_absolute_url(self=article) )
     else:
         form = AddPageForm()
     return render(request, "articles/article.html", {'form': form, })
@@ -73,11 +64,11 @@ def register(request):
     if request.method == 'POST':
         user_form = UserRegistrationForm(request.POST)
         if user_form.is_valid():
-            # Create a new user object but avoid saving it yet
+            # Создание нового пользователя по форме
             new_user = user_form.save(commit= False)
-            # Set the chosen password
+            # Ставит пароль который вписал
             new_user.set_password(user_form.cleaned_data['password'])
-            # Save the User object
+            # Сохраняет ысе вписанные данные в базу данных
             new_user.save()
             return render(request, 'registration/register_done.html', {'new_user': new_user})
     else:
@@ -109,4 +100,5 @@ def delete(request, article_id):
     if request.method == "POST":
         Article.objects.get(id=article_id).delete()
         return HttpResponseRedirect( reverse('articles:my_articles') )
+
 

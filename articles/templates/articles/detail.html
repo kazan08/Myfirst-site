@@ -4,13 +4,13 @@
 
 {% block content %}
 
-<h2>{{article.article_title}}</h2>
+<h2>{{ article.article_title }}</h2>
 
-<h4>{{article.article_text|linebreaks}}</h4>
+<h4>{{ article.article_text|linebreaks }}</h4>
 
-<em>Автор: {{article.author_name}}<br></em>
-<em>Создано: {{article.pub_date}}<br></em>
-<em>Обновлено: {{article.update}}<br></em>
+<em>Автор: {{ article.author_name }}<br></em>
+<em>Создано: {{ article.pub_date }}<br></em>
+<em>Обновлено: {{ article.update }}<br></em>
 
 {% if article.was_published_recently %}
 Новая статья!
@@ -22,8 +22,9 @@
 
     {% for c in latest_comments_list %}
         <p>
-            <strong>{{c.author_name}}</strong>
-            <p>{{c.comment_text|linebreaks}}</p>
+            <strong>{{ c.author_name }}</strong>
+            <p>{{ c.comment_text|linebreaks }}</p>
+            <p>{{ c.created }}</p>
         </p>
     {% endfor %}
 

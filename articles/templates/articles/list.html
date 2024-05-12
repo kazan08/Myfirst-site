@@ -21,7 +21,7 @@
                 <hr>
             {% endif %}
         {% endfor %}
-        {% include "articles/pagination.html" with page=latest_articles_list %}
+        {% include "articles/pagination.html" with page=page_obj %}
     {% else %}
         Статей нет
     {% endif %}
