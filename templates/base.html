@@ -1,3 +1,4 @@
+{% load blog_tags %}
 {% load static %}
 <!DOCTYPE html>
 <html lang="en">
@@ -43,6 +44,7 @@
 <!-- Footer -->
 <tr><td valign=top>
 	<div>
+		<p>Я прочитал {% total_posts %} статей.</p>
 		<p class="footer">Весь исходный код:</p>
 		<a href="https://github.com/kazan08/Myfirst-site" class="footer">Github</a>
 	</div>

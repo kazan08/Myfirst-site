@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load blog_tags %}
+{% load static %}
 
 {% block title %}Последние статьи{% endblock %}
 
@@ -10,12 +12,25 @@
 
         {% for a in latest_articles_list %}
             <h2>{{ a.article_title }}<br></h2>
+            {% if a.tags.all %}
+            <h3>
+                Категории:
+                {% for tag in a.tags.all %}
+
+                    <a href="{% url 'articles:index_by_tag' tag.slug %}">
+                    {{ tag.name }}
+                    </a>
+                {% if not forloop.last %}, {% endif %}
+            {% endfor %}
+            {% endif %}
+            </h3>
             {% autoescape off %}
-            <h4>{{ a.article_text|linebreaks|truncatewords:20 }}<br></h4>
+            <h4>{{ a.article_text|truncatewords:20 }}<br></h4>
             {% endautoescape %}
             <h5>Автор: {{ a.author_name }}</h5>
             <h5>Создано: {{ a.pub_date }}</h5>
             <h5>Обновлено: {{ a.update }}</h5>
+            <h5><img src="{% static 'articles/images/like.png' %}" width="25px" height="25px">{{ a.likes.count }}<br></h5>
             <a href="{{ a.get_absolute_url }}" class="read_post">Читать статью</a>
             {% if not forloop.last %}
                 <hr>

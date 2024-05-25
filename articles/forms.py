@@ -21,4 +21,13 @@ class AddPageForm(forms.ModelForm):
 
     class Meta:
         model = Article
-        fields = ('article_title', 'article_text', 'status')
+        fields = ('article_title', 'article_text', 'status', 'tags')
+        widgets = {
+            'article_title': forms.TextInput(attrs={'class': 'form-control'}),
+            'article_text': forms.Textarea(attrs={'class': 'form-control'}),
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super(AddPageForm, self).__init__(*args, **kwargs)
+        self.fields['tags'].required = False

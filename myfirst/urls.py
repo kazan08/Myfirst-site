@@ -19,11 +19,17 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from django.conf.urls import include
+from django.contrib.sitemaps.views import sitemap
+from articles.sitemaps import PostSitemap
 
+sitemaps = {
+    'posts': PostSitemap,
+}
 
 urlpatterns = [
     path('', include('articles.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
     path('admin/', admin.site.urls),
+    path('sitemap.xml/', sitemap, {'sitemaps': sitemaps},
+         name='django.contrib.sitemaps.views.sitemap'),
 ]

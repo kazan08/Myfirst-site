@@ -6,6 +6,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from django.urls import reverse
 
+from taggit.managers import TaggableManager
+
 
 class PublishedManager(models.Manager):
     def get_queryset(self):
@@ -22,11 +24,13 @@ class Article(models.Model):
     article_title = models.CharField('Название Статьи', max_length = 200) # Название статьи
     article_text = models.TextField('Текст статьи') # текст статьи
     pub_date = models.DateTimeField('Дата публикации', default=timezone.now()) # дата публикации
-    update = models.DateTimeField('Дата обновления', default=timezone.now())
-    status = models.CharField(verbose_name='Статус',max_length=2, choices=Status.choices, default=Status.DRAFT)
+    update = models.DateTimeField('Дата обновления', default=timezone.now()) # дата обновления статьи
+    status = models.CharField(verbose_name='Статус',max_length=2, choices=Status.choices, default=Status.DRAFT) # статус статьи
+    likes = models.ManyToManyField(User,'лайки', blank=True) # лайки статьи
 
     objects = models.Manager()
     published = PublishedManager()
+    tags = TaggableManager()
 
     def __str__(self): # Функция чтобы мы видели название статьи в админ панели
         return self.article_title

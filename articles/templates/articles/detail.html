@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load static %}
+{% load blog_tags %}
 
 {% block title %}{{article.article_title}}{% endblock %}
 
@@ -6,15 +8,38 @@
 
 <h2>{{ article.article_title }}</h2>
 
-<h4>{{ article.article_text|linebreaks }}</h4>
+<h4>{{ article.article_text }}</h4>
+
+{% if article.tags.all %}
+            <h4>
+                Категории:
+                {% for tag in article.tags.all %}
+
+                    <a href="{% url 'articles:index_by_tag' tag.slug %}">
+                    {{ tag.name }}
+                    </a>
+                {% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </h4>
+{% endif %}
 
 <em>Автор: {{ article.author_name }}<br></em>
 <em>Создано: {{ article.pub_date }}<br></em>
 <em>Обновлено: {{ article.update }}<br></em>
+<em>Лайков: {{ article.likes.count }}<br></em>
 
 {% if article.was_published_recently %}
 Новая статья!
 {% endif %}
+
+<form action="{% url 'articles:like_article' article.id %}" method="post">
+    {% csrf_token %}
+    {% if user in article.likes.all %}
+      <button type="submit"><img src="{% static 'articles/images/pressed-like.png' %}" width="25px" height="25px"></button>
+    {% else %}
+      <button type="submit"><img src="{% static 'articles/images/like.png' %}" width="25px" height="25px"></button>
+    {% endif %}
+ </form>
 
 <hr>
 
@@ -43,5 +68,14 @@
     <button type="submit" class="com_button">Оставить комментарий</button>
 
 </form>
+
+<h2>Похожие статьи</h2>
+ {% for a in similar_posts %}
+ <p>
+ <a href="{{ a.get_absolute_url }}">{{ a.article_title }}</a>
+ </p>
+ {% empty %}
+ <p>Нет похожих статей</p>
+{% endfor %}
 
 {% endblock %}
