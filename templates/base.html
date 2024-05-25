@@ -18,6 +18,7 @@
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
 			<li class="logo"><a href="{% url 'articles:index' %}"><div class="logo"></div></a></li>
+			<li><a href="{% url 'articles:search' %}">Поиск</a></li>
 			<li><a href="{% url 'articles:about' %}">О сайте</a></li>
 
 {% if user.is_authenticated %}

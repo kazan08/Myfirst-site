@@ -16,5 +16,6 @@ urlpatterns = [
     path('delete_article/<int:article_id>', views.delete, name='delete'),
     path('add_page/', views.add_page, name='add_page'),
     path('accounts/register/', views.register, name='register'),
+    path('search/', views.search, name='search'),
 
 ]

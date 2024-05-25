@@ -1,4 +1,5 @@
 import datetime
+import django
 from django.db import models
 
 from django.utils import timezone
@@ -23,8 +24,8 @@ class Article(models.Model):
     author_name = models.ForeignKey(User, on_delete= models.CASCADE)# Автор статьи
     article_title = models.CharField('Название Статьи', max_length = 200) # Название статьи
     article_text = models.TextField('Текст статьи') # текст статьи
-    pub_date = models.DateTimeField('Дата публикации', default=timezone.now()) # дата публикации
-    update = models.DateTimeField('Дата обновления', default=timezone.now()) # дата обновления статьи
+    pub_date = models.DateTimeField('Дата публикации', default=django.utils.timezone.now()) # дата публикации
+    update = models.DateTimeField('Дата обновления', default=django.utils.timezone.now()) # дата обновления статьи
     status = models.CharField(verbose_name='Статус',max_length=2, choices=Status.choices, default=Status.DRAFT) # статус статьи
     likes = models.ManyToManyField(User,'лайки', blank=True) # лайки статьи
 
@@ -54,7 +55,7 @@ class Comment(models.Model):
     article = models.ForeignKey(Article, on_delete = models.CASCADE) # статьия к которой сделан коммент
     author_name = models.ForeignKey(User, on_delete = models.CASCADE) # автор комментария
     comment_text = models.CharField('Текст комментария', max_length = 200) # текст комментария
-    created = models.DateTimeField("Создано", default=timezone.now()) # дата создания комментария
+    created = models.DateTimeField("Создано", default=django.utils.timezone.now()) # дата создания комментария
     
     def __str__(self): # функция чтобы показывало автора комментария в админ панели
         return self.author_name.username

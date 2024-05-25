@@ -31,3 +31,6 @@ class AddPageForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(AddPageForm, self).__init__(*args, **kwargs)
         self.fields['tags'].required = False
+
+class SearchForm(forms.Form):
+        query = forms.CharField(label='Введите запрос', widget=forms.TextInput(attrs={'class': 'form-control'}))

@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% load blog_tags %}
+{% block title %}Поиск{% endblock %}
+{% block content %}
+{% if query %}
+    <h1>По вашему запросу "{{ query }}"</h1>
+    <h3>
+        {% with results.count as total_results %}
+            {% if total_results == 1 %}
+                найден {{ total_results }} результат{{ total_results|pluralize }}
+            {% else %}
+                найдено {{ total_results }} результатов
+            {% endif %}
+        {% endwith %}
+    </h3>
+    {% for post in results %}
+        <h4>
+            <a href="{{ post.get_absolute_url }}">
+            {{ post.article_title }}
+            </a>
+        </h4>
+        {{ post.article_text|truncatewords:20 }}
+{% empty %}
+    <p>По вашему запросу ничего не найдено.</p>
+    {% endfor %}
+    <p><a href="{% url 'articles:search' %}">Искать ещё раз</a></p>
+{% else %}
+    <h1>Поиск статей</h1>
+    <form method="get">
+        {{ form.as_p }}
+        <input type="submit" value="Поиск">
+    </form>
+{% endif %}
+{% endblock %}
